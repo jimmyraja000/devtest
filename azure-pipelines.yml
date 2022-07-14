@@ -19,7 +19,7 @@ p:PackageAsSingleFile=true
 - script: tar -a -c -C build -f Application.zip *.* 
   displayName: Zip
 
-- task: 'AzureWebApp@1'
+- task: AzureWebApp@1
   displayName: 'Deploy Azure Web App'
   inputs:
   azureSubscription: 'Pay-As-You-Go'
