@@ -20,7 +20,7 @@ p:PackageAsSingleFile=true
   displayName: Zip
 
 - task: 'AzureWebApp@1'
-  displayName: 'Deploy Azure Web App’
+  displayName: 'Deploy Azure Web App'
   inputs:
   azureSubscription: 'Pay-As-You-Go'
   appName: netwebapp1
