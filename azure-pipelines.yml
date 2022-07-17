@@ -12,9 +12,9 @@ steps:
    command: build
    projects: '**/*.csproj'
    arguments: '--configuration $(buildConfiguration)'
-- script: dotnet publish -c Release -o build/
+- script: dotnet publish -c Release -o build /
 p:PackageAsSingleFile=true
- displayName: 'Publish'
+ displayName: Publish
 
 - script: tar -a -c -C build -f Application.zip *.* 
   displayName: Zip
@@ -22,7 +22,7 @@ p:PackageAsSingleFile=true
 - task: AzureWebApp@1
   displayName: 'Deploy Azure Web App'
   inputs:
-  azureSubscription: 'Pay-As-You-Go'
-  appName: devtestweb
-  appType: webApp
-  package: ./**/*.zip
+   azureSubscription: 'Pay-As-You-Go'
+   appName: devtestweb
+   appType: webApp
+   package: ./**/*.zip
