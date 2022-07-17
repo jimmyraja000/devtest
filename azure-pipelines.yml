@@ -14,7 +14,7 @@ steps:
    arguments: '--configuration $(buildConfiguration)'
 - script: dotnet publish -c Release -o build /
 p:PackageAsSingleFile=true
- displayName: Publish
+ displayName: publish
 
 - script: tar -a -c -C build -f Application.zip *.* 
   displayName: Zip
