@@ -23,6 +23,6 @@ p:PackageAsSingleFile=true
   displayName: 'Deploy Azure Web App'
   inputs:
   azureSubscription: 'Pay-As-You-Go'
-  appName: netwebapp1
+  appName: devtestweb
   appType: webApp
   package: ./**/*.zip
