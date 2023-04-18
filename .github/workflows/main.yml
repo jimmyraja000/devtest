@@ -24,3 +24,12 @@ jobs:
       
       - name: publish
         run: dotnet publish ./deploynet.csproj --configuration Release --no-build
+        
+      - name: Deploy to IIS
+        uses: warrenbuckley/DeployIISWebsite@master
+        with:
+          websiteName: devtest
+          webDeployPackage: '${{ github.workspace }}/publish'
+
+        env:
+          SERVER: 'http://iis-server'
