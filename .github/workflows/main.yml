@@ -32,4 +32,4 @@ jobs:
           webDeployPackage: '${{ github.workflows }}/publish'
 
         env:
-          SERVER: 'http://iis-server'
+          SERVER: 'http://http://localhost:80'
