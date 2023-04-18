@@ -29,7 +29,7 @@ jobs:
         uses: warrenbuckley/DeployIISWebsite@master
         with:
           websiteName: devtest
-          webDeployPackage: '${{ github.workspace }}/publish'
+          webDeployPackage: '${{ github.workflows }}/publish'
 
         env:
           SERVER: 'http://iis-server'
