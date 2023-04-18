@@ -23,4 +23,4 @@ jobs:
         run: dotnet build ./deploynet.csproj --configuration Release --no-restore
       
       - name: publish
-        run: dotnet publish ./deploynet.csproj --configurations Release --no-build
+        run: dotnet publish ./deploynet.csproj --configuration Release --no-build
