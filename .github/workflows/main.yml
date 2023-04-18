@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+
+env:
+  AZURE_WEBAPP_NAME: gitacdevweb
+  AZURE_WEB-PACKAGE_PATH: "./publish" 
       
 jobs:
   publish:
@@ -25,11 +29,18 @@ jobs:
       - name: publish
         run: dotnet publish ./deploynet.csproj --configuration Release --no-build
         
-      - name: Deploy to IIS
-        uses: warrenbuckley/DeployIISWebsite@master
-        with:
-          websiteName: gitacdevweb
-          webDeployPackage: '${{ github.workflows }}/publish'
+#       - name: Deploy to IIS
+#         uses: warrenbuckley/DeployIISWebsite@master
+#         with:
+#           websiteName: gitacdevweb
+#           webDeployPackage: '${{ github.workflows }}/publish'
 
-        env:
-          SERVER: 'http://localhost:80'
+#         env:
+#           SERVER: 'http://localhost:80'
+
+      - name: Deployment
+        uses: actions/webapps-deploy@v2
+        with:
+          app-name: ${{env.AZURE_WEBAPP_NAME}}
+          publish-profile: ${{AZURE_PUBLISH_PROFILE}}
+          package: "${{AZURE_WEB-PACKAGE_PATH}}"
