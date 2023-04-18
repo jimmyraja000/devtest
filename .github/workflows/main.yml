@@ -28,7 +28,7 @@ jobs:
       - name: Deploy to IIS
         uses: warrenbuckley/DeployIISWebsite@master
         with:
-          websiteName: devtest
+          websiteName: gitacdevweb
           webDeployPackage: '${{ github.workflows }}/publish'
 
         env:
