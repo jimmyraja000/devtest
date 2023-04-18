@@ -9,16 +9,18 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-     -uses: actions/checkout@v3
+      - uses: actions/checkout@v3
      
-    -name: setup .Net
-     uses: actions/setup-dotnet@v3
-     with:
-      dotnet-version:'6.0.x'
+      - name: setup .Net
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
       
-    -name: restore
-     run: dotnet restore ./deploynet.csproj
-    -name: build
-     run: dotnet build ./deploynet.csproj --configuration Release --no-restore
-    -name: publish
-     run: dotnet publish ./deploynet.csproj --configurations Release --no-build
+      - name: restore
+        run: dotnet restore ./deploynet.csproj
+      
+      - name: build
+        run: dotnet build ./deploynet.csproj --configuration Release --no-restore
+      
+      - name: publish
+        run: dotnet publish ./deploynet.csproj --configurations Release --no-build
