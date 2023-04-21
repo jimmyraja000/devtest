@@ -11,7 +11,7 @@ env:
   AZURE_WEBAPP_NAME: gitacdevweb
   AZURE_DEVWEBAPP_NAME: GitAc-Dev
   AZURE_PREPRODWEBAPP_NAME: GitAc-PreProd
-#   AZURE_WEBAPP_PACKAGE_PATH: "./publish"
+  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
  
       
 #  jobs:
@@ -75,12 +75,14 @@ jobs:
 #           with:
 #             name: MyArtifacts
 #             path: /home/runner/work/devtest/devtest/publish/
+        - name: publish
+          run: dotnet publish ./deploynet.csproj --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
 
         - name: Upload artifacts
           uses: actions/upload-artifact@v2
           with:
             name: myapp
-            path: artifacts/devtest.zip
+            path: '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
             run: sudo apt-get install unzip && unzip devtest.zip
             
   deploy:
