@@ -92,7 +92,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
-          name: devtest
+          name: myapp
           path: artifacts/
           
       - name: Deploy
