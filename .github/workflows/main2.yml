@@ -35,15 +35,43 @@ jobs:
       - name: publish
         run: dotnet publish ./deploynet.csproj --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
 
+ 
+      
+#       name: publish 2
+#       concurrency: Deployment
+
+#       on:
+#       workflow_dispatch:
+#       push:
+#       branches:
+#       - main
+ 
+      
   DeployDev:
       
       name: Deployment
       needs: publish
-      if: github.ref == 'refs/heads/main' 
+      if: github.ref == 'refs/heads/dev' 
       runs-on: ubuntu-latest
       environment:
         name: Dev
       steps:
+        - uses: actions/checkout@v3
+        - name: setup .Net
+          id: build_step
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: '6.0.x'
+
+        - name: restore
+          run: dotnet restore ./deploynet.csproj
+
+        - name: build
+          run: dotnet build ./deploynet.csproj --configuration Release --no-restore 
+
+        - name: publish
+          run: dotnet publish ./deploynet.csproj --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
+     
         - name: Deploy
           uses: Azure/webapps-deploy@v2
           with:
