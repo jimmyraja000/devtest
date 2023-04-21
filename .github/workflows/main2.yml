@@ -5,35 +5,35 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - dev
 
 env:
   AZURE_WEBAPP_NAME: gitacdevweb
   AZURE_DEVWEBAPP_NAME: GitAc-Dev
   AZURE_PREPRODWEBAPP_NAME: GitAc-PreProd
-  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
+#   AZURE_WEBAPP_PACKAGE_PATH: "./publish"
  
       
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
+#  jobs:
+#   publish:
+#     runs-on: ubuntu-latest
+#     steps:
     
-      - uses: actions/checkout@v3
-      - name: setup .Net
-        id: build_step
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x'
+#       - uses: actions/checkout@v3
+#       - name: setup .Net
+#         id: build_step
+#         uses: actions/setup-dotnet@v3
+#         with:
+#           dotnet-version: '6.0.x'
       
-      - name: restore
-        run: dotnet restore ./deploynet.csproj
+#       - name: restore
+#         run: dotnet restore ./deploynet.csproj
       
-      - name: build
-        run: dotnet build ./deploynet.csproj --configuration Release --no-restore 
+#       - name: build
+#         run: dotnet build ./deploynet.csproj --configuration Release --no-restore 
       
-      - name: publish
-        run: dotnet publish ./deploynet.csproj --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
+#       - name: publish
+#         run: dotnet publish ./deploynet.csproj --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
 
  
       
@@ -46,12 +46,13 @@ jobs:
 #       branches:
 #       - main
  
-      
+jobs:
+ 
   DeployDev:
       
       name: Deployment
-      needs: publish
-      if: github.ref == 'refs/heads/dev' 
+#       needs: publish
+#   if: github.event_name == 'pull_request'
       runs-on: ubuntu-latest
       environment:
         name: Dev
@@ -67,14 +68,47 @@ jobs:
           run: dotnet restore ./deploynet.csproj
 
         - name: build
-          run: dotnet build ./deploynet.csproj --configuration Release --no-restore 
+          run: dotnet build ./deploynet.csproj --configuration Release --no-restore
+          
+#         - name: Publish artifacts
+#           uses: actions/upload-artifact@v2
+#           with:
+#             name: MyArtifacts
+#             path: /home/runner/work/devtest/devtest/publish/
 
-        - name: publish
-          run: dotnet publish ./deploynet.csproj --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
-     
-        - name: Deploy
-          uses: Azure/webapps-deploy@v2
+        - name: Upload artifacts
+          uses: actions/upload-artifact@v2
           with:
-              app-name: ${{env.AZURE_DEVWEBAPP_NAME}}
-              publish-profile: ${{secrets.AZURE_DEVPUBLISH_PROFILE}}
-              package: "${{env.AZURE_WEBAPP_PACKAGE_PATH}}"
+            name: myapp
+            path: artifacts/devtest.zip
+            run: sudo apt-get install unzip && unzip devtest.zip
+            
+  deploy:
+    runs-on: ubuntu-latest
+    needs: DeployDev
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: devtest
+          path: artifacts/
+          
+      - name: Deploy
+        uses: Azure/webapps-deploy@v2
+        with:
+            app-name: ${{env.AZURE_DEVWEBAPP_NAME}}
+            publish-profile: ${{secrets.AZURE_DEVPUBLISH_PROFILE}}
+            package: artifacts/
+
+
+          
+
+#         - name: publish
+#           run: dotnet publish ./deploynet.csproj --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
+     
+#         - name: Deploy
+#           uses: Azure/webapps-deploy@v2
+#           with:
+#               app-name: ${{env.AZURE_DEVWEBAPP_NAME}}
+#               publish-profile: ${{secrets.AZURE_DEVPUBLISH_PROFILE}}
+#               package: "${{env.AZURE_WEBAPP_PACKAGE_PATH}}"
