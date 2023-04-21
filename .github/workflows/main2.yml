@@ -51,7 +51,7 @@ jobs:
       
       name: Deployment
       needs: publish
-      if: github.event_name == 'pull_request'
+#   if: github.event_name == 'pull_request'
       runs-on: ubuntu-latest
       environment:
         name: Dev
