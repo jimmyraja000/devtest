@@ -42,10 +42,10 @@ jobs:
 #         env:
 #           SERVER: 'http://localhost:80'
 
-  DeployDev: 
+  DeployDev:
       name: Deployment
       if: github.event_name == 'refs/heads/master'
-      runs-on: windows-latest
+      runs-on: ubuntu-latest
       environment:
         name: Dev
       steps:
