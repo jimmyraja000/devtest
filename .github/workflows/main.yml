@@ -35,7 +35,7 @@ jobs:
       - name: publish
         run: dotnet publish ./deploynet.csproj --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
 
-  DeployDev:
+  DeployDe:
       
       name: Deployment
       needs: publish
