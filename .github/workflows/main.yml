@@ -32,16 +32,6 @@ jobs:
       - name: publish
         run: dotnet publish ./deploynet.csproj --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
 
-        
-#       - name: Deploy to IIS
-#         uses: warrenbuckley/DeployIISWebsite@master
-#         with:
-#           websiteName: gitacdevweb
-#           webDeployPackage: '${{ github.workflows }}/publish'
-
-#         env:
-#           SERVER: 'http://localhost:80'
-
   DeployDev:
       
       name: Deployment
