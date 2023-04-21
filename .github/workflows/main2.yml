@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - main
 
 env:
   AZURE_WEBAPP_NAME: gitacdevweb
@@ -39,7 +39,7 @@ jobs:
       
       name: Deployment
       needs: publish
-      if: github.ref == 'refs/heads/master' 
+      if: github.ref == 'refs/heads/main' 
       runs-on: ubuntu-latest
       environment:
         name: Dev
