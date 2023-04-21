@@ -15,10 +15,13 @@ env:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    outputs:
+        build_id: ${{ steps.build_step.outputs.build_id }}
     steps:
+    
       - uses: actions/checkout@v3
-     
       - name: setup .Net
+        id: build_step
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
@@ -27,7 +30,7 @@ jobs:
         run: dotnet restore ./deploynet.csproj
       
       - name: build
-        run: dotnet build ./deploynet.csproj --configuration Release --no-restore
+        run: dotnet build ./deploynet.csproj --configuration Release --no-restore && echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
       
       - name: publish
         run: dotnet publish ./deploynet.csproj --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
@@ -35,7 +38,8 @@ jobs:
   DeployDev:
       
       name: Deployment
-      if: github.ref == 'refs/heads/master' && needs.publish.result == 'success'
+      needs: publish
+      if: github.ref == 'refs/heads/master' 
       runs-on: ubuntu-latest
       environment:
         name: Dev
