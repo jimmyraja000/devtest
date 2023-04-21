@@ -45,7 +45,7 @@ jobs:
   DeployDev:
       
       name: Deployment
-      if: github.event_name == 'refs/heads/master'
+      if: github.event_name == 'refs/heads/master' && needs.publish.result == 'success'
       needs: publish
       runs-on: ubuntu-latest
       environment:
