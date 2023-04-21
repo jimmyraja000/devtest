@@ -82,7 +82,7 @@ jobs:
           uses: actions/upload-artifact@v2
           with:
             name: myapp
-            path: '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
+            path: '${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp.zip'
             run: sudo apt-get install unzip && unzip devtest.zip
             
   deploy:
