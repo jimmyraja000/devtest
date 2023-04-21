@@ -30,7 +30,9 @@ jobs:
         run: dotnet restore ./deploynet.csproj
       
       - name: build
-        run: dotnet build ./deploynet.csproj --configuration Release --no-restore && echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+        run: dotnet build ./deploynet.csproj --configuration Release --no-restore 
+      - name: check
+        run: echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
       
       - name: publish
         run: dotnet publish ./deploynet.csproj --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
