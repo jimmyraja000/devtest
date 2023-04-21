@@ -71,7 +71,8 @@ jobs:
           run: |
                dotnet build ./deploynet.csproj --configuration Release --no-restore
                mkdir -p artifacts
-               cp myapp.zip artifacts/
+               ls
+               #cp myapp.zip artifacts/
 
           
           
