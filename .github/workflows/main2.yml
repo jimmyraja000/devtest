@@ -1,4 +1,5 @@
 name: publish 2
+concurrency: Deployment
 
 on:
   workflow_dispatch:
